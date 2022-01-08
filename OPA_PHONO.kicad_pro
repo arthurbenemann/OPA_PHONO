@@ -381,11 +381,6 @@
         "nets": [
           "+12V",
           "-12V",
-          "/POWER/AC_A",
-          "/POWER/REG_N",
-          "/POWER/REG_P",
-          "/POWER/REG_P_R",
-          "/POWER/REN_N_R",
           "GND"
         ],
         "pcb_color": "rgba(0, 0, 0, 0.000)",
