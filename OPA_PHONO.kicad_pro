@@ -396,7 +396,19 @@
     },
     "net_colors": {
       "+12V": "rgb(161, 255, 124)",
-      "-12V": "rgb(24, 33, 255)"
+      "-12V": "rgb(24, 33, 255)",
+      "/LEFT/FBTRIM": "rgb(0, 255, 255)",
+      "/LEFT/OUT1": "rgb(255, 255, 0)",
+      "/LEFT/OUT_RC": "rgb(255, 0, 255)",
+      "/LEFT/RIAA": "rgb(0, 255, 0)",
+      "/LEFT/RIAA_RC": "rgb(0, 255, 0)",
+      "/LEFT/TRIM": "rgb(0, 255, 255)",
+      "/RIGHT/FBTRIM": "rgb(0, 255, 255)",
+      "/RIGHT/OUT1": "rgb(255, 255, 0)",
+      "/RIGHT/OUT_RC": "rgb(255, 0, 255)",
+      "/RIGHT/RIAA": "rgb(0, 255, 0)",
+      "/RIGHT/RIAA_RC": "rgb(0, 255, 0)",
+      "/RIGHT/TRIM": "rgb(0, 255, 255)"
     }
   },
   "pcbnew": {

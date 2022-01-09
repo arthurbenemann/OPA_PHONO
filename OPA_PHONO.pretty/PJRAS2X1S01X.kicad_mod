@@ -1,6 +1,6 @@
 (footprint "PJRAS2X1S01X" (version 20211014) (generator pcbnew)
   (layer "F.Cu")
-  (tedit 61D4C6BB)
+  (tedit 61DA49AE)
   (property "Sheetfile" "OPA_PHONO.kicad_sch")
   (property "Sheetname" "")
   (attr through_hole)
@@ -394,7 +394,7 @@
   (pad "T1" thru_hole circle (at 3.675 -10.75) (size 2 2) (drill 1.3) (layers *.Cu *.Mask) (tstamp dfff92df-5682-4b44-b8ef-fa290871f88d))
   (pad "T2" thru_hole circle (at 3.675 3.25) (size 2 2) (drill 1.3) (layers *.Cu *.Mask) (tstamp bb93d5ba-8875-427a-bd47-4f60f7f547bc))
   (model "${KIPRJMOD}/pjras2x1s_series.STEP"
-    (offset (xyz -8.75 0 6.5))
+    (offset (xyz -8.75 0.75 6.5))
     (scale (xyz 1 1 1))
     (rotate (xyz 0 180 -90))
   )

@@ -691,7 +691,7 @@
     (uuid d7e6deb2-e1a2-4a42-9a48-4af71c9abcd6)
   )
 
-  (label "FB3" (at 229.87 106.68 0)
+  (label "FBTRIM" (at 229.87 106.68 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 01032c9c-f098-4859-933c-1611e3c61568)
   )
@@ -715,7 +715,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 9770780d-ae16-4763-93da-8e7dae983783)
   )
-  (label "OUT3" (at 209.55 104.14 0)
+  (label "TRIM" (at 207.01 104.14 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid a31d866c-2e9e-4883-926f-b8b31936dd79)
   )
