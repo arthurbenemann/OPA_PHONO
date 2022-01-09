@@ -1067,7 +1067,7 @@
     (property "Reference" "R26" (id 0) (at 132.08 96.5199 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "?" (id 1) (at 132.08 99.0599 0)
+    (property "Value" "120k" (id 1) (at 132.08 99.0599 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (id 2) (at 130.556 98.044 90)
