@@ -600,7 +600,7 @@
     (property "Reference" "J" (id 0) (at -10.16 19.05 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "UJC-HP-3-SMT-TR" (id 1) (at 21.59 -8.89 0)
+    (property "Value" "UJC-HP-3-SMT-TR" (id 1) (at 12.7 19.05 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Footprint" "OPA_PHONO:CUI_UJC-HP-3-SMT-TR" (id 2) (at 3.81 0 0)
@@ -634,6 +634,10 @@
       (rectangle (start 10.16 15.494) (end 9.144 14.986)
         (stroke (width 0) (type default) (color 0 0 0 0))
         (fill (type none))
+      )
+      (pin passive line (at 7.62 -12.7 90) (length 5.08)
+        (name "SHIELD" (effects (font (size 1.27 1.27))))
+        (number "S4" (effects (font (size 1.27 1.27))))
       )
     )
     (symbol "UJC-HP-3-SMT-TR_0_1"
@@ -735,10 +739,6 @@
       )
     )
     (symbol "UJC-HP-3-SMT-TR_1_1"
-      (pin passive line (at -7.62 -12.7 90) (length 5.08) hide
-        (name "SHIELD" (effects (font (size 1.27 1.27))))
-        (number "24" (effects (font (size 1.27 1.27))))
-      )
       (pin passive line (at 0 -12.7 90) (length 5.08)
         (name "GND" (effects (font (size 1.27 1.27))))
         (number "A12" (effects (font (size 1.27 1.27))))
@@ -767,11 +767,11 @@
         (name "SHIELD" (effects (font (size 1.27 1.27))))
         (number "S1" (effects (font (size 1.27 1.27))))
       )
-      (pin passive line (at -7.62 -12.7 90) (length 5.08) hide
+      (pin passive line (at -5.08 -12.7 90) (length 5.08)
         (name "SHIELD" (effects (font (size 1.27 1.27))))
         (number "S2" (effects (font (size 1.27 1.27))))
       )
-      (pin passive line (at -7.62 -12.7 90) (length 5.08) hide
+      (pin passive line (at 5.08 -12.7 90) (length 5.08)
         (name "SHIELD" (effects (font (size 1.27 1.27))))
         (number "S3" (effects (font (size 1.27 1.27))))
       )

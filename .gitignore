@@ -1,5 +1,6 @@
 
 OPA_PHONO.bak
 OPA_PHONO-backups/
+gerber/
 *.log
 *.raw
