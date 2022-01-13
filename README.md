@@ -1,7 +1,7 @@
 # OPA_PHONO
 
 ![image](https://user-images.githubusercontent.com/3289118/149295901-52ff9e62-9ec1-4234-8d02-1397248446cd.png)
-![image](https://user-images.githubusercontent.com/3289118/149294289-ce15f93f-4b4e-4526-a4b3-66a34a6bc7e2.png)6
+![image](https://user-images.githubusercontent.com/3289118/149294289-ce15f93f-4b4e-4526-a4b3-66a34a6bc7e2.png)
 ![image](https://user-images.githubusercontent.com/3289118/149293860-e3ea3523-4ddc-4ea5-9db0-fbf9ac1a94a3.png)
 
 ## RIAA filter Simulation
