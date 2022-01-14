@@ -89,6 +89,241 @@
         )
       )
     )
+    (symbol "Mechanical:Housing" (pin_names (offset 1.016)) (in_bom yes) (on_board yes)
+      (property "Reference" "N" (id 0) (at 3.81 0 0)
+        (effects (font (size 1.27 1.27)) (justify left))
+      )
+      (property "Value" "Housing" (id 1) (at 3.81 -1.905 0)
+        (effects (font (size 1.27 1.27)) (justify left))
+      )
+      (property "Footprint" "" (id 2) (at 1.27 1.27 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Datasheet" "~" (id 3) (at 1.27 1.27 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_keywords" "housing enclosure" (id 4) (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_description" "Housing" (id 5) (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_fp_filters" "Enclosure* Housing*" (id 6) (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (symbol "Housing_0_1"
+        (rectangle (start -5.08 -0.635) (end -1.27 -1.905)
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (circle (center -4.445 -3.175) (radius 0.635)
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type outline))
+        )
+        (circle (center -1.905 -3.175) (radius 0.635)
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type outline))
+        )
+        (polyline
+          (pts
+            (xy -4.5212 -1.5748)
+            (xy -4.4704 -1.3716)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -4.4196 -1.6764)
+            (xy -4.064 -1.6764)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -4.4196 -1.2192)
+            (xy -4.3688 -0.9652)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -4.318 -1.3208)
+            (xy -4.0132 -1.3208)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -4.2164 -0.9144)
+            (xy -3.9116 -0.9144)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -3.9116 -1.6256)
+            (xy -3.8608 -1.3716)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -3.81 -1.2192)
+            (xy -3.7592 -0.9652)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -3.6068 -1.5748)
+            (xy -3.556 -1.3716)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -3.5052 -1.6764)
+            (xy -3.1496 -1.6764)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -3.5052 -1.2192)
+            (xy -3.4544 -0.9652)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -3.4036 -1.3208)
+            (xy -3.0988 -1.3208)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -3.302 -0.9144)
+            (xy -2.9972 -0.9144)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -2.9972 -1.6256)
+            (xy -2.9464 -1.3716)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -2.8956 -1.2192)
+            (xy -2.8448 -0.9652)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -2.6924 -1.5748)
+            (xy -2.6416 -1.3716)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -2.5908 -1.6764)
+            (xy -2.2352 -1.6764)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -2.5908 -1.2192)
+            (xy -2.54 -0.9652)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -2.4892 -1.3208)
+            (xy -2.1844 -1.3208)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -2.3876 -0.9144)
+            (xy -2.0828 -0.9144)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -2.0828 -1.6256)
+            (xy -2.032 -1.3716)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -1.9812 -1.2192)
+            (xy -1.9304 -0.9652)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -0.635 0)
+            (xy -0.635 -4.445)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -5.715 0)
+            (xy -0.635 0)
+            (xy 3.175 3.81)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -5.715 0)
+            (xy -5.715 -4.445)
+            (xy -0.635 -4.445)
+            (xy 3.175 -0.635)
+            (xy 3.175 3.81)
+            (xy -1.905 3.81)
+            (xy -5.715 0)
+          )
+          (stroke (width 0) (type default) (color 0 0 0 0))
+          (fill (type background))
+        )
+      )
+    )
     (symbol "OPA_PHONO:PJRAS2X1S01X" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
       (property "Reference" "J" (id 0) (at -6.35 6.35 0)
         (effects (font (size 1.27 1.27)))
@@ -747,6 +982,32 @@
     (pin "1" (uuid e967cd21-adec-4686-877d-26d5a46b60b8))
   )
 
+  (symbol (lib_id "Mechanical:Housing") (at 208.28 120.65 0) (unit 1)
+    (in_bom yes) (on_board no) (fields_autoplaced)
+    (uuid f85b707b-c164-44fe-b6f5-1f0641c164e8)
+    (property "Reference" "N1" (id 0) (at 212.09 119.6974 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "Housing" (id 1) (at 212.09 122.2374 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "" (id 2) (at 209.55 119.38 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "https://www.hammfg.com/files/parts/pdf/1455L801.pdf" (id 3) (at 209.55 119.38 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Description" "BOX ALUM NATURAL 3.15\"LX4.05\"W" (id 4) (at 208.28 120.65 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "MPN" "1455L801" (id 5) (at 208.28 120.65 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Manufacturer" "Hammond Manufacturing" (id 6) (at 208.28 120.65 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+  )
+
   (symbol (lib_id "OPA_PHONO:PJRAS2X1S01X") (at 132.08 72.39 180) (unit 1)
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid fa800e8f-8aa2-4c19-9091-77042e702823)
@@ -986,6 +1247,9 @@
     (path "/54617677-cfc6-4c88-8682-59d8a487d34d/c0697fa1-f0d2-44ba-bb99-65fe325a1b1a"
       (reference "C14") (unit 1) (value "1u") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
+    (path "/54617677-cfc6-4c88-8682-59d8a487d34d/5f4c7c24-0d8b-4ff9-829a-ae38833fd421"
+      (reference "C15") (unit 1) (value "10u") (footprint "Capacitor_SMD:C_0805_2012Metric")
+    )
     (path "/54617677-cfc6-4c88-8682-59d8a487d34d/47a1e06a-e776-4a90-9d1f-892164164505"
       (reference "C16") (unit 1) (value "1u") (footprint "Capacitor_SMD:C_0402_1005Metric")
     )
@@ -1013,6 +1277,9 @@
     (path "/54617677-cfc6-4c88-8682-59d8a487d34d/6ebba8ec-40d2-45e7-a3c5-0fc5df9d634f"
       (reference "C24") (unit 1) (value "10u") (footprint "Capacitor_SMD:C_0805_2012Metric")
     )
+    (path "/54617677-cfc6-4c88-8682-59d8a487d34d/eb3b75c6-f775-48c1-aa10-2016bd53ab26"
+      (reference "C25") (unit 1) (value "10u") (footprint "Capacitor_SMD:C_0805_2012Metric")
+    )
     (path "/54617677-cfc6-4c88-8682-59d8a487d34d/398fdf8b-e7c5-4505-87b4-8312a52709d4"
       (reference "C26") (unit 1) (value "10u") (footprint "Capacitor_SMD:C_0805_2012Metric")
     )
@@ -1030,6 +1297,9 @@
     )
     (path "/6a41d364-e7d5-4400-beef-f6f5f8c70d7f"
       (reference "J3") (unit 1) (value "UJC-HP-3-SMT-TR") (footprint "OPA_PHONO:CUI_UJC-HP-3-SMT-TR")
+    )
+    (path "/f85b707b-c164-44fe-b6f5-1f0641c164e8"
+      (reference "N1") (unit 1) (value "Housing") (footprint "")
     )
     (path "/b71452ae-e2ec-4238-9d16-71d9677f964c/2a4ad1e3-8d24-4e7f-868b-1019aa3d2553"
       (reference "R1") (unit 1) (value "47k") (footprint "Resistor_SMD:R_0402_1005Metric")
