@@ -11,3 +11,7 @@ Overall response with (blue) and without(green) cartridge model:
 RIAA Filter deviation assuming 2% capacitors and 1% resistors
 ![image](/images/149296245-1a906b3c-e415-4430-8c28-894d3e710055.png)
 
+
+## Mechanical Enclosure
+
+The CAD model is avaliable in Fusion360 at: https://a360.co/32rnA34.  I may design a faceplate PCB with graphics, but in the meantime the Hammond 1544L80 enclosure can be milled acording to the drawings at [OPA_PHONO_FACEPLATE.pdf](/Enclosure/OPA_PHONO_FACEPLATE.pdf). A compatible drawing with slighly larger holes, but more avaliable sizes is on the bottom drawing.
