@@ -17,3 +17,9 @@ RIAA Filter deviation assuming 2% capacitors and 1% resistors
 ## Mechanical Enclosure
 
 The CAD model is avaliable in Fusion360 at: https://a360.co/32rnA34.  I may design a faceplate PCB with graphics, but in the meantime the Hammond 1544L80 enclosure can be milled acording to the drawings at [OPA_PHONO_FACEPLATE.pdf](/Enclosure/OPA_PHONO_FACEPLATE.pdf). A compatible drawing with slighly larger holes, but more avaliable sizes is on the bottom drawing.
+
+## Measurements
+
+**SN01** deviation from RIAA curve, based on measurements [SN01_REW.mdat](Measurements/SN01_REW.mdat). Note very close to noise floor at 15kHz, 60Hz hum and harmonics distorting measurement, low frequency behaviour from test device.
+
+![/images/SN01_RIAA_Deviation.png](/images/SN01_RIAA_Deviation.png)
