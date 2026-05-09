@@ -16,7 +16,12 @@ RIAA Filter deviation assuming 2% capacitors and 1% resistors
 
 ## Mechanical Enclosure
 
+### Hammond case
 The CAD model is avaliable in Fusion360 at: https://a360.co/32rnA34.  I may design a faceplate PCB with graphics, but in the meantime the Hammond 1544L80 enclosure can be milled acording to the drawings at [OPA_PHONO_FACEPLATE.pdf](/Enclosure/OPA_PHONO_FACEPLATE.pdf). A compatible drawing with slighly larger holes, but more avaliable sizes is on the bottom drawing.
+
+### 3D printed case
+Mell, has created a 3d printed case for his build. Files stored under [Enclosure-3dprint/](./Enclosure-3dprint/)
+
 
 ## Measurements
 
