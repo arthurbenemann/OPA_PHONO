@@ -17,3 +17,8 @@ Enclosure/OPA_PHONO.FCStd1
 # Python
 __pycache__/
 *.pyc
+
+# SKiDL generated outputs
+*.net
+*.erc
+*_sklib.py
