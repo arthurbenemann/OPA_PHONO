@@ -22,3 +22,4 @@ __pycache__/
 *.net
 *.erc
 *_sklib.py
+skidl/*.bom.csv
