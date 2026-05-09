@@ -40,18 +40,13 @@ Run:
     python opa_phono.py        # generates opa_phono.net (KiCad netlist)
 """
 
-import os
 from skidl import (
     Part, Net, Bus, generate_netlist, set_default_tool, KICAD,
-    lib_search_paths, subcircuit, ERC,
+    subcircuit, ERC,
 )
+from parts import OPA1644, OPA1612, LTC3265, RCA_DUAL, USBC, HOUSING
 
 set_default_tool(KICAD)
-
-# Custom symbols (RCA, USB-C, OPA1644, OPA1612, LTC3265) live in
-# PCB/OPA_PHONO.kicad_sym, RCA.kicad_sym.
-HERE = os.path.dirname(os.path.abspath(__file__))
-lib_search_paths[KICAD].append(os.path.join(HERE, '..', 'PCB'))
 
 
 # ---------------------------------------------------------------- footprints
@@ -91,32 +86,49 @@ def decouple(rail, gnd, value='1u', ref=None, fp=FP_C0402):
 def power(VIN, VP, VN, GND):
     """LTC3265 dual charge-pump: USB +5V VIN -> +/-6V (VP, VN).
 
-    Boost path: VIN + flying cap on CBSTP/CBSTN -> VOUTP_RAW -> LDO -> VP.
-    Invert path: VIN + flying cap on CINVP/CINVN -> VOUTN_RAW -> LDO -> VN.
-    Each LDO is set by a feedback divider on ADJP / ADJN to ~6V.
+    Boost path:  VIN -> CBSTP/CBSTN flying cap -> VOUTP (raw) -> LDOP = VP.
+    Invert path: VIN -> CINVP/CINVN flying cap -> VOUTN (raw) -> LDON = VN.
+    Each LDO is set by a feedback divider on ADJP/ADJN to ~6V.
     """
-    u3 = Part('OPA_PHONO', 'LTC3265xDHC', ref='U3', footprint=FP_DFN18)
+    u3 = LTC3265(ref='U3', footprint=FP_DFN18)
 
     # Internal nets named to match the .kicad_sch labels.
-    voutp = Net('VOUTP'); voutn = Net('VOUTN')
-    bypp  = Net('BYPP');  bypn  = Net('BYPN')
-    adjp  = Net('ADJP');  adjn  = Net('ADJN')
-    cbstp = Net('CBSTP'); cbstn = Net('CBSTN')
-    cinvp = Net('CINVP'); cinvn = Net('CINVN')
+    voutp = Net('VOUTP'); voutn = Net('VOUTN')   # pre-LDO raw rails
+    bypp  = Net('BYPP');  bypn  = Net('BYPN')    # LDO reference bypass
+    adjp  = Net('ADJP');  adjn  = Net('ADJN')    # LDO feedback taps
+    cbstp = Net('CBSTP'); cbstn = Net('CBSTN')   # boost flying cap
+    cinvp = Net('CINVP'); cinvn = Net('CINVN')   # inverter flying cap
 
-    # Connect the LTC3265 by pin name (resolved via the OPA_PHONO symbol lib).
-    u3['VIN']   += VIN
-    u3['GND']   += GND
+    # Inputs: both VIN pins (boost + inverter) tied to the +5V VBUS.
+    u3['VINP'] += VIN
+    u3['VINN'] += VIN
+    u3['GND']  += GND
+    # Pre-LDO raw outputs (have their own bulk caps below).
     u3['VOUTP'] += voutp
     u3['VOUTN'] += voutn
-    u3['BYPP']  += bypp
-    u3['BYPN']  += bypn
-    u3['ADJP']  += adjp
-    u3['ADJN']  += adjn
-    u3['CBSTP'] += cbstp
-    u3['CBSTN'] += cbstn
-    u3['CINVP'] += cinvp
-    u3['CINVN'] += cinvn
+    # Final regulated rails out of the integrated LDOs.
+    u3['LDOP'] += VP
+    u3['LDON'] += VN
+    # LDO feedback + bypass.
+    u3['BYPP'] += bypp;  u3['BYPN'] += bypn
+    u3['ADJP'] += adjp;  u3['ADJN'] += adjn
+    # Charge-pump flying caps.
+    u3['CBSTP'] += cbstp; u3['CBSTN'] += cbstn
+    u3['CINVP'] += cinvp; u3['CINVN'] += cinvn
+
+    # Enable pins: tied to VIN so both sections run whenever USB power is up.
+    # (Verify against the rendered .kicad_sch -- could also be a logic input.)
+    u3['ENP'] += VIN
+    u3['ENN'] += VIN
+    # MODE: pull to GND for burst-mode (low-Iq), or VIN for forced PWM.  Audio
+    # designs usually pick PWM to keep the switching out of the audio band.
+    u3['MODE'] += VIN
+    # RT: oscillator timing resistor to GND.  Add a real value once the
+    # schematic value is verified; using 100k here as a typical placeholder
+    # (sets the LTC3265 internal oscillator to ~600 kHz per datasheet).
+    rt = R('100k', ref='R_RT')
+    rt[1] += u3['RT']
+    rt[2] += GND
 
     # ---- VIN bypass (10u + 1u) ----
     decouple(VIN, GND, '10u', ref='C23', fp=FP_C0805)
@@ -268,16 +280,14 @@ OUT_L = Net('OUT_L'); OUT_R = Net('OUT_R')
 CC1  = Net('CC1');  CC2  = Net('CC2')
 
 # --- USB-C receptacle (J3) ---
-j3 = Part('OPA_PHONO', 'UJC-HP-3-SMT-TR', ref='J3',
-          footprint='OPA_PHONO:CUI_UJC-HP-3-SMT-TR')
+j3 = USBC(ref='J3', footprint='OPA_PHONO:CUI_UJC-HP-3-SMT-TR')
 j3['VBUS'] += VBUS
 j3['GND']  += GND
 j3['CC1']  += CC1
 j3['CC2']  += CC2
-# All four shield tabs to GND.  The lib has SHIELD as a multi-pin name; loop
-# over any pin whose name starts with 'SHIELD'.
+# All four shield tabs to GND (the part has 4 pins all named SHIELD on S1-S4).
 for p in j3.pins:
-    if p.name and p.name.startswith('SHIELD'):
+    if p.name == 'SHIELD':
         p += GND
 
 # CC1/CC2 5.1k pulldowns (configures port as USB-C UFP / sink).
@@ -286,27 +296,27 @@ r30 = R('5.1k', ref='R30');  r30[1] += CC2; r30[2] += GND
 
 # --- RCA jacks (Switchcraft PJRAS2X1S01X dual mono) ---
 # T1 = top tip, T2 = bottom tip, S1/S2 = shells (ground).
-j2 = Part('OPA_PHONO', 'PJRAS2X1S01X', ref='J2',
-          footprint='OPA_PHONO:PJRAS2X1S01X')          # input
+j2 = RCA_DUAL(ref='J2', footprint='OPA_PHONO:PJRAS2X1S01X')   # input
 j2['T1'] += IN_L; j2['T2'] += IN_R
 j2['S1'] += GND;  j2['S2'] += GND
 
-j1 = Part('OPA_PHONO', 'PJRAS2X1S01X', ref='J1',
-          footprint='OPA_PHONO:PJRAS2X1S01X')          # output
+j1 = RCA_DUAL(ref='J1', footprint='OPA_PHONO:PJRAS2X1S01X')   # output
 j1['T1'] += OUT_L; j1['T2'] += OUT_R
 j1['S1'] += GND;   j1['S2'] += GND
 
 # Mechanical (Hammond enclosure) - non-electrical, listed here for BOM parity.
-n1 = Part('Mechanical', 'Housing', ref='N1', footprint='')
+n1 = HOUSING(ref='N1', footprint='')
 
 # --- U1 OPA1644 (quad) and U2 OPA1612 (dual) live at top level so the same
 # physical chip is shared between the two channel subcircuits ---
-u1 = Part('OPA_PHONO', 'OPA1644AxD', ref='U1', footprint=FP_SOIC14)
-u2 = Part('Amplifier_Operational', 'OPA1612AxD', ref='U2', footprint=FP_SOIC8)
+u1 = OPA1644(ref='U1', footprint=FP_SOIC14)
+u2 = OPA1612(ref='U2', footprint=FP_SOIC8)
 
-# Power pin connections (OPA1644: V+ pin 11, V- pin 4 ; OPA1612: V+ pin 8, V- pin 4).
-u1[11] += VP; u1[4] += VN
-u2[8]  += VP; u2[4] += VN
+# Power pin connections.
+#   OPA1644: V+ = pin 4,  V- = pin 11   (standard quad op-amp pinout)
+#   OPA1612: V- = pin 4,  V+ = pin 8    (standard dual op-amp pinout)
+u1[4] += VP;  u1[11] += VN
+u2[8] += VP;  u2[4]  += VN
 
 # Op-amp local decoupling (the per-IC 1u/10u live on POWER sheet via power()).
 
