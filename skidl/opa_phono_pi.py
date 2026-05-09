@@ -50,10 +50,73 @@ PIN = Pin.types  # short alias
 
 
 # =============================================================================
-# Inline part library
+# Manufacturer / MPN database
+#
+# Keys: (template_name, value).  Values: (Manufacturer, MPN).
+# Sources:
+#   * Existing PCB/OPA_PHONO.bom.csv for parts that were already on the
+#     board (resistors, op-amps, LTC3265, RCA jack, large caps).
+#   * Reasonable picks for new parts: PCM1863, 24C32, Pi header, and
+#     filter/decoupling values not in the original BOM.
+# Edit freely - the BOM CSV generator (bom.py) just transcribes whatever
+# is here.
 # =============================================================================
 
-R = Part(
+PART_DB = {
+    # Resistors - YAGEO 0402, 1%
+    ("R", "47k"):    ("YAGEO", "RT0402FRE0747KL"),     # existing BOM
+    ("R", "16k"):    ("YAGEO", "RT0402FRE0716KL"),     # existing BOM
+    ("R", "2.32k"):  ("YAGEO", "RT0402FRE072K32L"),    # existing BOM
+    ("R", "499R"):   ("YAGEO", "RT0402FRE07499RL"),    # existing BOM
+    ("R", "20.5k"):  ("YAGEO", "RC0402FR-0720K5L"),    # existing BOM
+    ("R", "5.1k"):   ("YAGEO", "RC0402FR-075K1L"),     # existing BOM
+    ("R", "3.3k"):   ("YAGEO", "RC0402FR-073K3L"),     # ADC AA filter
+    ("R", "22k"):    ("YAGEO", "RC0402FR-0722KL"),     # ADC bias
+    ("R", "4.7k"):   ("YAGEO", "RC0402FR-074K7L"),     # I2C pull-up
+    ("R", "3.9k"):   ("YAGEO", "RC0402FR-073K9L"),     # HAT-ID pull-up
+
+    # Capacitors
+    ("C0402", "1u"):    ("Murata",    "GRM155R61E105KA12D"),  # existing BOM
+    ("C0402", "100n"):  ("Murata",    "GRM155R71H104KE14D"),  # decoupling
+    ("C0402", "470p"):  ("Murata",    "GRM1555C1H471JA01D"),  # AA filter
+    ("C0402", "NP"):    ("",          ""),                    # do not populate
+    ("C0805", "10u"):   ("Murata",    "GRM21BR61C106KE15L"),  # existing BOM
+    ("C0805", "2.2u"):  ("Murata",    "GRM219R71C225KE15D"),  # AC-couple to ADC
+    ("C1206", "47n"):   ("Panasonic", "ECH-U1C473GX5"),       # existing BOM (RIAA)
+    ("C1210", "68n"):   ("Panasonic", "ECH-U1C683GX5"),       # existing BOM (RIAA)
+
+    # ICs
+    ("OPA1644", None):     ("Texas Instruments", "OPA1644AID"),         # existing BOM
+    ("OPA1612", None):     ("Texas Instruments", "OPA1612AID"),         # existing BOM
+    ("LTC3265", None):     ("Analog Devices",    "LTC3265EDHC#TRPBF"),  # existing BOM
+    ("PCM1863", None):     ("Texas Instruments", "PCM1863DBTR"),
+    ("24C32",   None):     ("Microchip",         "24LC32AT-I/SN"),
+
+    # Connectors / mechanical
+    ("RPi_Header",    None): ("Wurth Elektronik", "61304021121"),
+    ("PJRAS2X1S01X",  None): ("Switchcraft",      "PJRAS2X1S01X"),     # existing BOM
+}
+
+
+def _attach_db(part, key, value):
+    """Look up (Manufacturer, MPN) for (key, value) and attach as part fields.
+
+    Fields must go into part.fields[...] (not plain attributes) for SKiDL to
+    emit them as (field name "MPN" "...") entries in the generated netlist.
+    """
+    mfr, mpn = PART_DB.get((key, value), ("", ""))
+    if mfr:
+        part.fields["Manufacturer"] = mfr
+    if mpn:
+        part.fields["MPN"] = mpn
+    return part
+
+
+# =============================================================================
+# Inline part library (templates) and value-aware constructors
+# =============================================================================
+
+_R = Part(
     name="R", ref_prefix="R", tool=SKIDL, dest=TEMPLATE,
     footprint="Resistor_SMD:R_0402_1005Metric",
     pins=[
@@ -62,7 +125,7 @@ R = Part(
     ],
 )
 
-C = Part(
+_C0402 = Part(
     name="C", ref_prefix="C", tool=SKIDL, dest=TEMPLATE,
     footprint="Capacitor_SMD:C_0402_1005Metric",
     pins=[
@@ -71,7 +134,7 @@ C = Part(
     ],
 )
 
-C0805 = Part(
+_C0805 = Part(
     name="C", ref_prefix="C", tool=SKIDL, dest=TEMPLATE,
     footprint="Capacitor_SMD:C_0805_2012Metric",
     pins=[
@@ -80,7 +143,7 @@ C0805 = Part(
     ],
 )
 
-C1206 = Part(
+_C1206 = Part(
     name="C", ref_prefix="C", tool=SKIDL, dest=TEMPLATE,
     footprint="Capacitor_SMD:C_1206_3216Metric",
     pins=[
@@ -89,7 +152,7 @@ C1206 = Part(
     ],
 )
 
-C1210 = Part(
+_C1210 = Part(
     name="C", ref_prefix="C", tool=SKIDL, dest=TEMPLATE,
     footprint="Capacitor_SMD:C_1210_3225Metric",
     pins=[
@@ -98,8 +161,29 @@ C1210 = Part(
     ],
 )
 
+
+def R(value, **kw):
+    return _attach_db(_R(value=value, **kw), "R", value)
+
+
+def C(value, **kw):
+    return _attach_db(_C0402(value=value, **kw), "C0402", value)
+
+
+def C0805(value, **kw):
+    return _attach_db(_C0805(value=value, **kw), "C0805", value)
+
+
+def C1206(value, **kw):
+    return _attach_db(_C1206(value=value, **kw), "C1206", value)
+
+
+def C1210(value, **kw):
+    return _attach_db(_C1210(value=value, **kw), "C1210", value)
+
+
 # OPA1644 - quad SoundPlus op-amp, SOIC-14
-OPA1644 = Part(
+_OPA1644 = Part(
     name="OPA1644", ref_prefix="U", tool=SKIDL, dest=TEMPLATE,
     value="OPA1644AID",
     footprint="Package_SO:SOIC-14_3.9x8.7mm_P1.27mm",
@@ -121,8 +205,13 @@ OPA1644 = Part(
     ],
 )
 
+
+def OPA1644():
+    return _attach_db(_OPA1644(), "OPA1644", None)
+
+
 # OPA1612 - dual SoundPlus op-amp, SOIC-8
-OPA1612 = Part(
+_OPA1612 = Part(
     name="OPA1612", ref_prefix="U", tool=SKIDL, dest=TEMPLATE,
     value="OPA1612AID",
     footprint="Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
@@ -138,9 +227,14 @@ OPA1612 = Part(
     ],
 )
 
+
+def OPA1612():
+    return _attach_db(_OPA1612(), "OPA1612", None)
+
+
 # LTC3265 - low noise +-V supply with boost & inverting charge pumps
 # Pin map matches the project library OPA_PHONO:LTC3265xDHC.
-LTC3265 = Part(
+_LTC3265 = Part(
     name="LTC3265", ref_prefix="U", tool=SKIDL, dest=TEMPLATE,
     value="LTC3265EDHC",
     footprint="Package_DFN_QFN:DFN-18-1EP_3x5mm_P0.5mm_EP1.66x4.4mm",
@@ -167,9 +261,14 @@ LTC3265 = Part(
     ],
 )
 
+
+def LTC3265():
+    return _attach_db(_LTC3265(), "LTC3265", None)
+
+
 # PCM1863 - stereo audio ADC, TSSOP-20 (DBT package)
 # Pin numbers per TI SLASE45 datasheet; verify before fabrication.
-PCM1863 = Part(
+_PCM1863 = Part(
     name="PCM1863", ref_prefix="U", tool=SKIDL, dest=TEMPLATE,
     value="PCM1863DBT",
     footprint="Package_SO:TSSOP-20_4.4x6.5mm_P0.65mm",
@@ -197,8 +296,13 @@ PCM1863 = Part(
     ],
 )
 
+
+def PCM1863():
+    return _attach_db(_PCM1863(), "PCM1863", None)
+
+
 # 24C32 / 24LC32 - 32 kbit I2C EEPROM, SOIC-8
-EEPROM_24C32 = Part(
+_EEPROM_24C32 = Part(
     name="24C32", ref_prefix="U", tool=SKIDL, dest=TEMPLATE,
     value="24C32",
     footprint="Package_SO:SOIC-8_3.9x4.9mm_P1.27mm",
@@ -214,16 +318,26 @@ EEPROM_24C32 = Part(
     ],
 )
 
+
+def EEPROM_24C32():
+    return _attach_db(_EEPROM_24C32(), "24C32", None)
+
+
 # Raspberry Pi 40-pin GPIO header (2x20 vertical pin header)
-RPI_HEADER = Part(
+_RPI_HEADER = Part(
     name="RPi_Header", ref_prefix="J", tool=SKIDL, dest=TEMPLATE,
     value="RPi_HEADER",
     footprint="Connector_PinHeader_2.54mm:PinHeader_2x20_P2.54mm_Vertical",
     pins=[Pin(num=n, name=f"P{n}", func=PIN.PASSIVE) for n in range(1, 41)],
 )
 
+
+def RPI_HEADER():
+    return _attach_db(_RPI_HEADER(), "RPi_Header", None)
+
+
 # Switchcraft PJRAS2X1S01X dual RCA jack (uses local OPA_PHONO.pretty footprint)
-RCA_DUAL = Part(
+_RCA_DUAL = Part(
     name="PJRAS2X1S01X", ref_prefix="J", tool=SKIDL, dest=TEMPLATE,
     value="RCA_DUAL",
     footprint="OPA_PHONO:PJRAS2X1S01X",
@@ -234,6 +348,10 @@ RCA_DUAL = Part(
         Pin(num="S2", name="SLEEVE2", func=PIN.PASSIVE),
     ],
 )
+
+
+def RCA_DUAL():
+    return _attach_db(_RCA_DUAL(), "PJRAS2X1S01X", None)
 
 
 # =============================================================================

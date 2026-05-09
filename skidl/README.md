@@ -37,6 +37,7 @@ Pi 3V3 ─── ADC AVDD/DVDD, EEPROM VCC                                 ID_SD
 | File | Purpose |
 | --- | --- |
 | `opa_phono_pi.py` | Single-file SKiDL design with all parts defined inline. |
+| `bom.py` | CSV BOM generator (designator / qty / value / Mfr / MPN / footprint). |
 | `requirements.txt` | Python deps (just `skidl`). |
 
 ## Build
@@ -46,11 +47,42 @@ python3 -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 python opa_phono_pi.py            # ERC + writes opa_phono_pi.net
 python opa_phono_pi.py --erc      # ERC only
+python bom.py                     # writes opa_phono_pi.bom.csv
 ```
 
 The generated `opa_phono_pi.net` is a KiCad-compatible netlist that can
 be imported into a fresh `.kicad_pcb` for layout. Expect ~321 components
 and a clean ERC pass (`ERC INFO: No errors or warnings found`).
+
+## BOM with manufacturer / part numbers
+
+Each part instance is tagged with `Manufacturer` and `MPN` SKiDL fields
+sourced from the `PART_DB` lookup table at the top of `opa_phono_pi.py`.
+Values that already appeared in `PCB/OPA_PHONO.bom.csv` keep the
+original Yageo / Murata / Panasonic / TI / ADI / Switchcraft part
+numbers. New parts (PCM1863, 24C32 EEPROM, Pi header, anti-alias filter
+RCs, decoupling caps) get reasonable picks - edit `PART_DB` if you have
+preferred suppliers.
+
+`bom.py` walks `default_circuit.parts` and writes a grouped CSV:
+
+```
+Designator,Qty,Value,Manufacturer,MPN,Footprint
+U5,1,24C32,Microchip,24LC32AT-I/SN,Package_SO:SOIC-8_3.9x4.9mm_P1.27mm
+...
+"R2, R4, R6, R8, R13, R15, R17, R19",8,16k,YAGEO,RT0402FRE0716KL,Resistor_SMD:R_0402_1005Metric
+"C5, C10",2,NP,,,Capacitor_SMD:C_0402_1005Metric
+```
+
+The fields also flow through to the netlist as KiCad
+`(field name "MPN" "...")` entries, so KiCad's built-in BOM tools
+(`Tools -> Generate BOM` after netlist import, or
+`kicad-cli sch export bom`) pick them up too.
+
+**Distributor part numbers** (Digikey/Mouser): not included by default.
+Add a `("R", "47k"): ("YAGEO", "RT0402FRE0747KL", "311-...-1-ND")`
+3-tuple form to `PART_DB` and extend `_attach_db` + `bom.py` to write
+the third element into a `Digikey_PN` field/column.
 
 The `WARNING: KICAD_SYMBOL_DIR ... missing` and
 `WARNING: fp-lib-table file was not found` lines printed by SKiDL on
